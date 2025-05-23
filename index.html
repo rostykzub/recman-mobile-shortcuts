@@ -1,0 +1,1259 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Keyboard Shortcuts</title>
+        <style>
+            /* =======  ROOT VARS  ======= */
+            :root {
+                --key-bg: #f8f9fa;
+                --key-border: #c7ccd1;
+                --key-shadow: inset 0 -1px 0 #b4b9bf;
+                --text-color: #2d2e30;
+                --section-gap: 2.5rem;
+            }
+            html {
+                scroll-behavior: auto;
+                overflow-anchor: none; /* 🧠 Safari/Chrome scroll anchoring fix */
+            }
+
+            /* =======  LAYOUT  ======= */
+            .shortcuts-wrapper {
+                display: flex;
+                justify-content: center; /* center entire block in embed */
+            }
+            .title {
+                display: flex;
+                justify-content: center;
+                padding: 0 8px;
+                align-content: center;
+                text-align-last: center;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-size: 28px;
+            }
+
+            .segmented-control {
+                display: flex;
+                gap: 6px;
+                background: #e5e5ea;
+                border-radius: 10px;
+                padding: 4px;
+                margin-bottom: 1.5rem;
+                width: 100%;
+                max-width: 600px;
+                box-sizing: border-box;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .segment {
+                flex: 1;
+                padding: 8px 12px;
+                font-size: 14px;
+                font-weight: 500;
+                color: #007aff;
+                background: none;
+                border: none;
+                border-radius: 8px;
+                transition: all 0.15s ease-in-out;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+            .segment.active {
+                background: white;
+                color: #000;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .shortcuts {
+                width: 100%; /* responsive */
+                max-width: 600px; /* comfortable line‑length */
+                padding: 0 8px; /* small breathing room on tiny screens */
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-size: 15px;
+                line-height: 1.45;
+                color: var(--text-color);
+            }
+
+            /* =======  SECTIONS  ======= */
+            .shortcut-section {
+                margin-bottom: var(--section-gap);
+            }
+            .shortcut-section h3 {
+                margin: calc(var(--section-gap) * 0.6) 0 1rem;
+                font-size: 1.18rem;
+                font-weight: 900;
+            }
+
+            /* =======  TABLES  ======= */
+            .shortcut-table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+            /* maintain uniform column widths across all tables */
+            .shortcut-table colgroup col:first-child {
+                width: 50%;
+            }
+            .shortcut-table colgroup col:last-child {
+                width: 50%;
+            }
+
+            .shortcut-table tr + tr {
+                border-top: 1px solid #e6e6e6;
+            }
+            .shortcut-table td {
+                padding: 8px 10px;
+                vertical-align: middle;
+            }
+            .shortcut-table td.shortcut {
+                text-align: right;
+                white-space: nowrap;
+            }
+            .hidden {
+                display: none !important;
+            }
+
+            /* =======  KEYCAPS  ======= */
+            kbd {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                min-height: 1.5em;
+                padding: 0 4px;
+                margin: 2px 3px;
+                font-size: 0.85em;
+                font-weight: 400;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                color: #000;
+                background: var(--key-bg);
+                border: 1px solid var(--key-border);
+                border-radius: 6px;
+                box-shadow: var(--key-shadow);
+            }
+            kbd .glyph {
+                font-size: 1.1em;
+                line-height: 1;
+            }
+            kbd .name {
+                font-size: 0.8em;
+                font-weight: 400;
+            }
+
+            kbd.long {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            /* =======  FOOTNOTE  ======= */
+            .footnote {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-size: 0.8em;
+                color: #666;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+                text-align: center;
+            }
+            /* =======  ANIMATIONS ======= */
+            .section-group {
+                opacity: 0;
+                transform: translateY(12px);
+                transition:
+                    opacity 250ms ease,
+                    transform 250ms ease;
+                pointer-events: none;
+            }
+
+            .section-group.active {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="title"><h3>Mobile Shortcuts</h3></div>
+        <div>
+            <p class="footnote">
+                Hold ⌘ on an external keyboard while running the app to see the live shortcut overlay
+            </p>
+        </div>
+
+        <div class="segmented-control">
+            <button class="segment active" data-target="general">General</button>
+            <button class="segment" data-target="search">Search</button>
+            <button class="segment" data-target="tasks">Tasks</button>
+            <button class="segment" data-target="notifications">Notifications</button>
+            <button class="segment" data-target="logs">Logs</button>
+            <button class="segment" data-target="shortcuts">Shortcuts</button>
+        </div>
+
+        <div class="shortcuts-wrapper">
+            <div class="shortcuts">
+                <div class="section-group hidden" data-section="search">
+                    <!-- ============================ SEARCH ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Search</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Search</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>F</kbd>
+                                        <br />
+                                        <span class="footnote">or simply start typing</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ NAVIGATION ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Navigation</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut">
+                                        <kbd>Return</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate back</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ ACTIONS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Actions</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Delete selected item</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="section-group active" data-section="general">
+                    <!-- ============================ GENERAL ============================ -->
+                    <div class="shortcut-section">
+                        <h3>General</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Show/hide sidebar</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>/</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate up in sidebar</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd>
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd>
+                                        <kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate down in sidebar</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd>
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd>
+                                        <kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Escape popover (Cancel/Done)</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>.</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Go to Search</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>1</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Go to Notifications</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>2</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Go to Shortcuts</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>3</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Go to Tasks</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>4</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Go to Settings</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>5</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="section-group hidden" data-section="tasks">
+                    <!-- ============================ NAVIGATION ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Navigation</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut">
+                                        <kbd>Return</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate back</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jump to top / bottom</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↑</kbd> / <kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ SEARCH ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Search</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Search</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>F</kbd><br /><span class="footnote"
+                                            >or simply start typing something</span
+                                        >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Open Filters</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>F</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ TASKS ACTIONS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Tasks Actions</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Create new task</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>N</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Complete / Uncomplete task</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>Return</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Delete (with confirm)</td>
+                                    <td class="shortcut"><kbd>⌫</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Delete (immediate)</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Refresh list</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>R</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Assign to Me</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>M</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Set Responsible…</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>R</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Clear assignee</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Set Due Date</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>D</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Add comment</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>N</kbd> <br /><span class="footnote"
+                                            >or Start typing something in task details</span
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ COMMENTING ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Commenting</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Add mention</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>2</kbd> or
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>2</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Done / Save</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>Return</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Cancel / Close</td>
+                                    <td class="shortcut">
+                                        <kbd>Esc</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>.</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ SEARCH PEOPLE, PROJECT, COMPANIES ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Search People, Project, Companies</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Search</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>F</kbd> <br /><span class="footnote">or start typing something</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut"><kbd>Return</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Cancel / Close</td>
+                                    <td class="shortcut">
+                                        <kbd>Esc</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>.</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ DATE PICKER ACTIONS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Date picker actions</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Move one day</td>
+                                    <td class="shortcut"><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Move one month</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd> / <kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Move one year</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd> / <kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Today</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>T</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tomorrow</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>T</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Select highlighted day</td>
+                                    <td class="shortcut"><kbd>Space</kbd> or <kbd>Return</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Clear date</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Done / Save</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>Return</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Cancel / Close</td>
+                                    <td class="shortcut">
+                                        <kbd>Esc</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>.</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ SELECT ITEMS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Select items</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Select first</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Select last</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection upwards</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection downwards</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection to top</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection to bottom</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Select all</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>A</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>De-select all</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>A</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ TEXT FORMATTING ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Text formatting</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Italic</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>I</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bold</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>B</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Underline</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>U</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Strikethrough</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>U</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bulleted list</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>L</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Numbered list</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>L</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="shortcut-section">
+                        <h3>Navigation</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut">
+                                        <kbd>Return</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate back</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jump to top</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↑</kbd> / <kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="footnote">
+                        * Some shortcuts may clash with system‑wide keys. Adjust in your OS keyboard settings if needed.
+                    </p>
+                </div>
+                <div class="section-group hidden" data-section="notifications">
+                    <!-- ============================ NAVIGATION ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Navigation</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut">
+                                        <kbd>Return</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate back</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jump to top / bottom</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↑</kbd> / <kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Cancel / Close (without save)</td>
+                                    <td class="shortcut">
+                                        <kbd>Esc</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>.</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ FILTER ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Filter</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Open filter</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>F</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ ACTIONS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Actions</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Archive selected notification</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Unarchive selected notification</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bookmark/Unbookmark notification</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>B</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ SELECT ITEMS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Select items</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Select first</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Select last</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection upwards</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection downwards</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection to top</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extend selection to bottom</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⇧</span><span class="name">Shift</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Select all</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>A</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>De-select all</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>A</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ NOTIFICATION DETAILS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Notification Details</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Open next/previous</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="section-group hidden" data-section="logs">
+                    <!-- ============================ NAVIGATION ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Navigation</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut">
+                                        <kbd>Return</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate back</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jump to top / bottom</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↑</kbd> / <kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Cancel / Close (without save)</td>
+                                    <td class="shortcut">
+                                        <kbd>Esc</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>.</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ FILTER ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Filter</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Open filter</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌥</span><span class="name">Opt</span></kbd
+                                        ><kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>F</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ ACTIONS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Actions</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Create new Log</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>N</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Delete selected log</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Delete (immediate)</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pin / Unpin selected log</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>P</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Edit selected log</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>E</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Save log</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>Return</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="section-group hidden" data-section="shortcuts">
+                    <!-- ============================ NAVIGATION ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Navigation</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Navigate cells / elements</td>
+                                    <td class="shortcut"><kbd>↑</kbd><kbd>↓</kbd></td>
+                                </tr>
+                                <tr>
+                                    <td>Select / Open action</td>
+                                    <td class="shortcut">
+                                        <kbd>Return</kbd> or
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>→</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Navigate back</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>←</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jump to top / bottom</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↑</kbd> / <kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============================ ACTIONS ============================ -->
+                    <div class="shortcut-section">
+                        <h3>Actions</h3>
+                        <table class="shortcut-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Move item up</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↑</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Move item down</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>↓</kbd>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Delete selected item</td>
+                                    <td class="shortcut">
+                                        <kbd><span class="glyph">⌘</span><span class="name">Cmd</span></kbd
+                                        ><kbd>⌫</kbd>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const segments = document.querySelectorAll(".segment");
+                const sections = document.querySelectorAll(".section-group");
+
+                segments.forEach((segment) => {
+                    segment.addEventListener("click", () => {
+                        const target = segment.dataset.target;
+
+                        segments.forEach((btn) => btn.classList.remove("active"));
+                        segment.classList.add("active");
+
+                        sections.forEach((sec) => {
+                            sec.classList.remove("active");
+                            sec.classList.add("hidden");
+                        });
+
+                        const sectionToShow = document.querySelector(`.section-group[data-section="${target}"]`);
+                        if (sectionToShow) {
+                            sectionToShow.classList.remove("hidden");
+                            requestAnimationFrame(() => {
+                                sectionToShow.classList.add("active");
+                            });
+                        }
+
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                window.scrollBy(0, 1);
+                                window.scrollBy(0, -1);
+                            });
+                        });
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
