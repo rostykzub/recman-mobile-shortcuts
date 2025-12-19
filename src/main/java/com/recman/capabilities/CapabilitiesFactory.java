@@ -14,7 +14,9 @@ import java.time.Duration;
  */
 public class CapabilitiesFactory {
 
-    private static final String APPIUM_SERVER_URL = "http://localhost:4723";
+    private static final String APPIUM_SERVER_URL = System.getProperty("appium.url", "http://localhost:4723");
+    private static final String ANDROID_AUTOMATION_NAME = "UiAutomator2";
+    private static final String IOS_AUTOMATION_NAME = "XCUITest";
 
     /**
      * Creates Android capabilities using UiAutomator2Options (Appium 10.x compatible)
@@ -27,7 +29,7 @@ public class CapabilitiesFactory {
         UiAutomator2Options options = new UiAutomator2Options();
         options.setDeviceName(deviceName);
         options.setApp(appPath);
-        options.setAutomationName("UiAutomator2");
+        options.setAutomationName(ANDROID_AUTOMATION_NAME);
         options.setNewCommandTimeout(Duration.ofSeconds(300));
         options.setAutoGrantPermissions(true);
         return options;
@@ -44,7 +46,7 @@ public class CapabilitiesFactory {
         XCUITestOptions options = new XCUITestOptions();
         options.setDeviceName(deviceName);
         options.setApp(appPath);
-        options.setAutomationName("XCUITest");
+        options.setAutomationName(IOS_AUTOMATION_NAME);
         options.setNewCommandTimeout(Duration.ofSeconds(300));
         options.setAutoAcceptAlerts(true);
         return options;
